@@ -36,34 +36,6 @@ exports.register = function (server, eOptions, next) {
       },
     },
   }, {
-    method: 'PUT',
-    path: `${options.basePath}/dojos/lead/{leadId}`,
-    handler: handlers.actHandlerNeedsUser('submit', null, null, { ctrl: 'lead' }),
-    config: {
-      auth: auth.apiUser,
-      description: 'lead',
-      notes: 'lead',
-      tags: ['api', 'dojos'],
-      plugins: {
-        'hapi-swagger': {
-          responseMessages: [
-            { code: 400, message: 'Bad Request' },
-            { code: 200, message: 'OK' }],
-        },
-      },
-      validate: {
-        payload: Joi.object({ lead: {
-          id: joiValidator.guid().optional(),
-          application: joiValidator.application(true).required(),
-          userId: joiValidator.guid().required(),
-          completed: Joi.boolean().valid(true),
-        } }),
-        params: {
-          leadId: Joi.string().guid().required(),
-        },
-      },
-    },
-  }, {
     method: 'GET',
     path: `${options.basePath}/dojos/lead/{id}`,
     handler: handlers.actHandlerNeedsUser('load_dojo_lead', 'id'),
