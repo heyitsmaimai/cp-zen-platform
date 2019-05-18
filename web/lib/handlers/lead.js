@@ -31,8 +31,8 @@ const put = params =>
 		async (req, reply, next) => {
 			const leadId = req.app.leadId;
 			const lead = req.app.lead;
-			req.app.leadScore = await LeadScore.post(leadId, lead);
-			reply(application).code(200);
+			await LeadScore.post(leadId, lead);
+			reply(req.app.lead).code(200);
 		},
 	]);
 
