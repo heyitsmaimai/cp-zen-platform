@@ -43,6 +43,31 @@ module.exports = [
     },
   },
   {
+    method: 'POST',
+    path: `${oldBasePath}/dojos/lead`,
+    handler: leadHandlers.post(),
+    config: {
+      auth: auth.apiUser,
+      description: 'lead',
+      notes: 'lead',
+      tags: ['api', 'dojos'],
+      plugins: {
+        'hapi-swagger': {
+          responseMessages: [
+            { code: 400, message: 'Bad Request' },
+            { code: 200, message: 'OK' }],
+        },
+      },
+      validate: {
+        payload: Joi.object({ lead: {
+          id: joiValidator.guid().optional(),
+          application: joiValidator.application(),
+          userId: joiValidator.guid().optional(),
+          completed: Joi.boolean().valid(false),
+        } }),
+      },
+    },
+  }, {
     method: 'PUT',
     path: `${oldBasePath}/dojos/lead/{leadId}`,
     handler: leadHandlers.put(),

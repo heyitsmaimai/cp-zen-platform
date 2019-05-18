@@ -11,31 +11,6 @@ exports.register = function (server, eOptions, next) {
   const handlers = handlerFactory(server, 'cd-dojos');
 
   server.route([{
-    method: 'POST',
-    path: `${options.basePath}/dojos/lead`,
-    handler: handlers.actHandlerNeedsUser('save', null, null, { ctrl: 'lead' }),
-    config: {
-      auth: auth.apiUser,
-      description: 'lead',
-      notes: 'lead',
-      tags: ['api', 'dojos'],
-      plugins: {
-        'hapi-swagger': {
-          responseMessages: [
-            { code: 400, message: 'Bad Request' },
-            { code: 200, message: 'OK' }],
-        },
-      },
-      validate: {
-        payload: Joi.object({ lead: {
-          id: joiValidator.guid().optional(),
-          application: joiValidator.application(),
-          userId: joiValidator.guid().optional(),
-          completed: Joi.boolean().valid(false),
-        } }),
-      },
-    },
-  }, {
     method: 'GET',
     path: `${options.basePath}/dojos/lead/{id}`,
     handler: handlers.actHandlerNeedsUser('load_dojo_lead', 'id'),
