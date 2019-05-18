@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const auth = require('../../lib/authentications');
 const leadHandlers = require('../../lib/handlers/lead');
-const joiValidator = require('./validations/dojos')();
+const joiValidator = require('../validations/dojos')();
 
 const basePath = '/api/3.0';
 const oldBasePath = '/api/2.0';

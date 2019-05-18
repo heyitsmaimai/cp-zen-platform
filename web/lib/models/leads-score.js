@@ -4,15 +4,15 @@ const Transport = require('../transports/http');
 class LeadScore {
   constructor() {
     this.transport = new Transport({
-      baseUrl: `http://${service}:3000/`,
+      baseUrl: `http://${service}:5000/`,
       json: true,
     });
   }
   get(id) {
-    return this.transport.get(`lead_score/${id}`);
+    return this.transport.get(`leads_score/${id}`);
   }
-  post(id, application) {
-    return this.transport.post(`lead_score/${id}`, { application });
+  post(id, lead) {
+    return this.transport.post(`leads_score/${id}`, { body: { lead } });
   }
 }
-module.exports = new Lead();
+module.exports = new LeadScore();

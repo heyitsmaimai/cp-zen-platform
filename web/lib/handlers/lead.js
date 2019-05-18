@@ -1,5 +1,6 @@
 const mastermind = require('../mastermind');
 const Lead = require('../models/lead');
+const LeadScore = require('../models/leads-score');
 
 const list = params => // eslint-disable-line no-unused-vars
 mastermind([
@@ -14,24 +15,24 @@ const put = params =>
 	mastermind([
 		async (req, reply, next) => {
 			const lead = req.payload.lead;
-			const user = req.user;
-			return req.seneca.act({ role, ctrl: 'lead', cmd: 'submit', lead, user},
+			const user = req.user.user;
+			return req.seneca.act({ role: 'cd-dojos', ctrl: 'lead', cmd: 'submit', lead, user},
 				(err, res) => {
 					if (err) {
-						return cb(expectedErr);
+						return next(expectedErr);
 					}
-					reply(res).code(200);
-					req.app.leadId = res.lead.id
-					req.app.application = res.lead
-					cb();
+					req.app.leadId = res.id;
+					req.app.lead = res;
+					req.app.application = req.payload.lead.application;
+					req.app.lead.application = req.app.application;
+					next();
 				});
 		},
 		async (req, reply, next) => {
-			const application = req.payload.lead;
 			const leadId = req.app.leadId;
-			req.app.leadScore = await LeadScore.post(leadId, { application });
-			reply(req.app.leadScore).code(200);
-			return next();
+			const lead = req.app.lead;
+			req.app.leadScore = await LeadScore.post(leadId, lead);
+			reply(application).code(200);
 		},
 	]);
 
