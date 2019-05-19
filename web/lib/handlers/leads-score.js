@@ -7,7 +7,6 @@ const get = params => // eslint-disable-line no-unused-vars
     async (req, reply, next) => {
       const leadId = req.params.leadId;
       const leadScore = await LeadScore.get(leadId);
-      console.log(leadScore);
       return reply(leadScore).code(200);
     },
   ]);
